@@ -1,4 +1,22 @@
- var parseHeadline = function(str) {
+var parseBold = function(str) {
+  var boldRegExp = /(\*\*)(.*?)\1/;
+  var stra = [];
+  while ((stra = boldRegExp.exec(str)) !== null) {
+    str = str.replace(stra[0], '<b>' + stra[2] + '</b>')
+  }
+  return str;
+ }
+
+var parseCode = function(str) {
+  var codeRegExp = /`{1}(\w+)`{1}/;
+  var stra = [];
+  while ((stra = codeRegExp.exec(str)) !== null) {
+    str = str.replace(stra[0], '<pre>' + stra[1] + '</pre>');
+  }
+  return str;
+ } 
+
+var parseHeadline = function(str) {
    var headlineRegExp =  /^(\#{1,6})([^\#\n]+)$/m;
    var stra = [];
    while ((stra = headlineRegExp.exec(str)) !== null) {
@@ -16,15 +34,6 @@
   }
   return str;
 }
-
-var parseBold = function(str) {
-  var boldRegExp = /(\*\*)(.*?)\1/;
-  var stra = [];
-  while ((stra = boldRegExp.exec(str)) !== null) {
-    str = str.replace(stra[0], '<b>' + stra[2] + '</b>')
-  }
-  return str;
- }
 
 var parseStrong = function(str) {
   var strongRegExp = /(~~)(.*?)\1/;
@@ -74,6 +83,7 @@ var markdown = {
     str = parseStrong(str);
     str = parseHorizontaleLine(str);
     str = parseLink(str);
+    str = parseCode(str);
     return str;
   }
 };
